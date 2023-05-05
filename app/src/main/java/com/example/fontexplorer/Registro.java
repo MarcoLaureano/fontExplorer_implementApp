@@ -2,6 +2,7 @@ package com.example.fontexplorer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,8 +65,11 @@ public class Registro extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
                         Log.e("Registro", "Error al registrar usuario", t);
+
+                        Intent i = new Intent(Registro.this, Login.class);
+                        startActivity(i);
                     }
                 });
             }
