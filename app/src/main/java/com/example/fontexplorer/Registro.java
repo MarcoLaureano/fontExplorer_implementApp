@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.example.fontexplorer.API.ApiClient;
 import com.example.fontexplorer.API.ServerService;
 import com.example.fontexplorer.Entities.Usuario;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +28,7 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-
+        Gson gson = new GsonBuilder().setLenient().create();
         nombreEditText = findViewById(R.id.name_text);
         apellidosEditText = findViewById(R.id.lastname_text);
         emailEditText = findViewById(R.id.mail_text);
@@ -44,7 +46,7 @@ public class Registro extends AppCompatActivity {
                 usuario.setEmail(emailEditText.getText().toString());
                 usuario.setUsuario(usuarioEditText.getText().toString());
                 usuario.setContraseña(contraseñaEditText.getText().toString());
-
+                String json = gson.toJson(usuario);
                 // Envía la solicitud POST al servidor
                 ServerService serverService = ApiClient.getService();
                 Call<Usuario> call = serverService.createUsuario(usuario);

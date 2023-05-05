@@ -17,6 +17,7 @@
     </ImageView>
 
     <EditText
+        android:id="@+id/user"
         android:paddingLeft="10dp"
         android:layout_width="300dp"
         android:layout_height="30dp"
@@ -25,6 +26,7 @@
         android:background="@drawable/redondeado"/>
 
     <EditText
+        android:id="@+id/pass"
         android:paddingLeft="10dp"
         android:layout_width="300dp"
         android:layout_height="30dp"
@@ -48,6 +50,7 @@
             android:layout_marginRight="20dp"/>
 
         <Button
+            android:id="@+id/botonLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
