@@ -2,7 +2,7 @@ package com.example.fontexplorer.Entities;
 
 public class Usuario {
 
-    private int idUsuario;
+    private Long idUsuario;
 
     private String nombre;
 
@@ -18,11 +18,11 @@ public class Usuario {
 
     }
 
-    public int getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
