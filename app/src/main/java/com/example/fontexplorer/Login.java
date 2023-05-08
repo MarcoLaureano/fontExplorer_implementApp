@@ -62,6 +62,8 @@ public class Login extends AppCompatActivity {
                                 if (u.getUsuario().equals(user.getText().toString()) && u.getContraseña().equals(pass.getText().toString())) {
                                     Toast.makeText(getApplicationContext(), "Logged", Toast.LENGTH_SHORT).show();
                                     foundUser = true;
+                                    Intent i = new Intent(Login.this, MapsActivity.class);
+                                    startActivity(i);
                                     break;
                                 }
                             }
