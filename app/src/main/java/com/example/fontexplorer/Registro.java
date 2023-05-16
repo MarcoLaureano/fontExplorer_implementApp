@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.example.fontexplorer.API.ApiClient;
 import com.example.fontexplorer.API.ServerService;
 import com.example.fontexplorer.Entities.Usuario;
+import com.google.gson.Gson;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,33 +40,31 @@ public class Registro extends AppCompatActivity {
         btn_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crea un objeto Usuario con los datos del formulario
-                Usuario usuario = new Usuario();
-                usuario.setNombre(nombreEditText.getText().toString());
-                usuario.setApellidos(apellidosEditText.getText().toString());
-                usuario.setEmail(emailEditText.getText().toString());
-                usuario.setUsuario(usuarioEditText.getText().toString());
-                usuario.setContraseña(contraseñaEditText.getText().toString());
+                // Create a Usuario object with the data from the form
+                Usuario usuario = new Usuario(
+                        String.valueOf(nombreEditText.getText()),
+                        String.valueOf(apellidosEditText.getText()),
+                        String.valueOf(emailEditText.getText()),
+                        String.valueOf(usuarioEditText.getText()),
+                        String.valueOf(contraseñaEditText.getText())
+                );
 
-                // Envía la solicitud POST al servidor
+                // Send the POST request to the server
                 ServerService serverService = ApiClient.getService();
-                Call<Usuario> call = serverService.createUsuario(usuario);
-                call.enqueue(new Callback<Usuario>() {
+                Call<Void> call = serverService.registerUser(usuario);
+                call.enqueue(new Callback<Void>() {
                     @Override
-                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                    public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
-                            Usuario nuevoUsuario = response.body();
                             Toast.makeText(getApplicationContext(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-                            System.out.println(nuevoUsuario);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Error al registrar usuario", Toast.LENGTH_SHORT).show();
-                        }
+                            Toast.makeText(getApplicationContext(), "Error al registrar usuario", Toast.LENGTH_SHORT).show();                        }
                     }
 
                     @Override
-                    public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<Void> call, Throwable t) {
                         Log.e("Registro", "Error al registrar usuario", t);
+                        Toast.makeText(getApplicationContext(), "Error al registrar usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

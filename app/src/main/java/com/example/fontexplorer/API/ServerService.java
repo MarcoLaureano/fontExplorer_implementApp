@@ -15,5 +15,5 @@ public interface ServerService {
     Call<List<Usuario>> getUsuario();
 
     @POST("/usuarios/registerUser")
-    Call<Usuario> createUsuario(@Body Usuario usuario);
+    Call<Void> registerUser(@Body Usuario usuario);
 }
