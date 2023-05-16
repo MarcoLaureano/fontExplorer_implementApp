@@ -29,7 +29,8 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        Gson gson = new GsonBuilder().setLenient().create();
+        Gson gson = new Gson();
+                //GsonBuilder().setLenient().create();
         nombreEditText = findViewById(R.id.name_text);
         apellidosEditText = findViewById(R.id.lastname_text);
         emailEditText = findViewById(R.id.mail_text);
@@ -50,7 +51,7 @@ public class Registro extends AppCompatActivity {
                 String json = gson.toJson(usuario);
                 // Envía la solicitud POST al servidor
                 ServerService serverService = ApiClient.getService();
-                Call<Usuario> call = serverService.createUsuario(usuario);
+                Call<Usuario> call = serverService.createUsuario(json);
                 call.enqueue(new Callback<Usuario>() {
                     @Override
                     public void onResponse(Call<Usuario> call, Response<Usuario> response) {
