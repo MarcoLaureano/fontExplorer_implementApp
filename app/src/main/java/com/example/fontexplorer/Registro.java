@@ -2,6 +2,7 @@ package com.example.fontexplorer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.example.fontexplorer.API.ApiClient;
 import com.example.fontexplorer.API.ServerService;
 import com.example.fontexplorer.Entities.Usuario;
 import com.google.gson.Gson;
-
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -29,7 +29,7 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-
+        Gson gson = new GsonBuilder().setLenient().create();
         nombreEditText = findViewById(R.id.name_text);
         apellidosEditText = findViewById(R.id.lastname_text);
         emailEditText = findViewById(R.id.mail_text);
@@ -40,7 +40,6 @@ public class Registro extends AppCompatActivity {
         btn_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create a Usuario object with the data from the form
                 Usuario usuario = new Usuario(
                         String.valueOf(nombreEditText.getText()),
                         String.valueOf(apellidosEditText.getText()),
@@ -48,8 +47,7 @@ public class Registro extends AppCompatActivity {
                         String.valueOf(usuarioEditText.getText()),
                         String.valueOf(contraseñaEditText.getText())
                 );
-
-                // Send the POST request to the server
+              
                 ServerService serverService = ApiClient.getService();
                 Call<Void> call = serverService.registerUser(usuario);
                 call.enqueue(new Callback<Void>() {

@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fontexplorer.API.ApiClient;
 import com.example.fontexplorer.API.ServerService;
@@ -22,14 +24,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
+    EditText user, pass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Button buttonLogin = findViewById(R.id.botonSign); //Buscamos el botón por su id
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
+        user = findViewById(R.id.user);
+        pass = findViewById(R.id.pass);
+
+        Button buttonSingUp = findViewById(R.id.botonSign); //Buscamos el botón por su id
+        buttonSingUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Registro.class);
@@ -46,10 +53,25 @@ public class Login extends AppCompatActivity {
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 if(response.isSuccessful()) {
                     List<Usuario> users = response.body();
-
-                    for (Usuario u : users) {
-                        System.out.println("SI: " + u.toString());
-                    }
+                    Button buttonLogin = findViewById(R.id.botonLogin);
+                    buttonLogin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            boolean foundUser = false;
+                            for (Usuario u : users) {
+                                if (u.getUsuario().equals(user.getText().toString()) && u.getContraseña().equals(pass.getText().toString())) {
+                                    Toast.makeText(getApplicationContext(), "Logged", Toast.LENGTH_SHORT).show();
+                                    foundUser = true;
+                                    Intent i = new Intent(Login.this, MapsActivity.class);
+                                    startActivity(i);
+                                    break;
+                                }
+                            }
+                            if (!foundUser) {
+                                Toast.makeText(getApplicationContext(), "Error login", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     System.out.println("response no es succesful");
                 }
