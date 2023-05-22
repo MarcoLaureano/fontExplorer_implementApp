@@ -1,21 +1,36 @@
 package com.example.fontexplorer.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
+
 public class Usuario {
 
+
+    @SerializedName("idUsuario")
     private Long idUsuario;
 
+    @SerializedName("nombre")
     private String nombre;
 
+    @SerializedName("apellidos")
     private String apellidos;
 
+    @SerializedName("email")
     private String email;
 
+    @SerializedName("usuario")
     private String usuario;
 
+    @SerializedName("contraseña")
     private String contraseña;
 
-    public Usuario() {
 
+    public Usuario(String nombre, String apellidos, String email, String usuario, String contraseña) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
     }
 
     public Long getIdUsuario() {

@@ -1,7 +1,6 @@
 package com.example.fontexplorer.API;
 
 
-import com.example.fontexplorer.Entities.EstadistiquesFont;
 import com.example.fontexplorer.Entities.Fuente;
 import com.example.fontexplorer.Entities.Usuario;
 
@@ -20,8 +19,5 @@ public interface ServerService {
     Call<List<Fuente>> getFuentes();
 
     @POST("/usuarios/registerUser")
-    Call<Usuario> createUsuario(@Body String usuario);
-
-    @POST("/estadisticas/registerReview")
-    Call<EstadistiquesFont> createEstadisticaFont(@Body String estadistiquesFont);
+    Call<Void> registerUser(@Body Usuario usuario);
 }

@@ -13,6 +13,8 @@ public class ApiClient {
     static Gson gson = new GsonBuilder().setLenient().create();
     public static ServerService getService() {
         if (retrofit == null) {
+            Gson gson = new GsonBuilder().setLenient().create(); // Agregar setLenient() aquí
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
