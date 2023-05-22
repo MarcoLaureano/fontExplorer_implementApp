@@ -51,9 +51,12 @@ public class EstadistiquesFont {
 
     @Override
     public String toString() {
-        return
-                calificacion +
-                ", " + comentarios + '\'';
+        return "EstadistiquesFont{" +
+                "idEstadistica=" + idEstadistica +
+                ", fuente=" + fuente +
+                ", calificacion=" + calificacion +
+                ", comentarios='" + comentarios + '\'' +
+                '}';
     }
 }
 

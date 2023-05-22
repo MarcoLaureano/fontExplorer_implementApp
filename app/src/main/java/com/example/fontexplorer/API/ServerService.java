@@ -22,6 +22,6 @@ public interface ServerService {
     @POST("/usuarios/registerUser")
     Call<Usuario> createUsuario(@Body String usuario);
 
-    @POST("/estadisticas")
+    @POST("/estadisticas/registerReview")
     Call<EstadistiquesFont> createEstadisticaFont(@Body String estadistiquesFont);
 }

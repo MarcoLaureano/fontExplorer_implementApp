@@ -63,13 +63,14 @@ public class Review extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_review, container, false);
-        Gson gson = new GsonBuilder().setLenient().create();
+
         calificacion = view.findViewById(R.id.ratingBar);
         comentario = view.findViewById(R.id.comentarios);
         idFuente = view.findViewById(R.id.idFuente);
         Bundle args = getArguments();
         idFuente.setText(String.valueOf(args.getLong("fuente")));
         button = view.findViewById(R.id.send);
+        Gson gson = new Gson();
 
         ServerService server = ApiClient.getService();
         Call<List<Fuente>> call = server.getFuentes();
@@ -80,47 +81,62 @@ public class Review extends DialogFragment {
                 EstadistiquesFont estadistiquesFont = new EstadistiquesFont();
                 estadistiquesFont.setCalificacion(calificacion.getRating());
                 estadistiquesFont.setComentarios(comentario.getText().toString());
-
-
-                String json = gson.toJson(estadistiquesFont);
-                String json2 = "{\n" +
-                        "  \"calificacion\": " + calificacion.getRating() + ",\n" +
-                        "  \"comentarios\": \"" + comentario.getText().toString().replace("\"", "\\\"") + "\",\n" +
-                        "  \"fuente\": {\n" +
-                        "    \"idFuente\": " + args.getLong("fuente") + "\n" +
-                        "  }\n" +
-                        "}";
-                ServerService serverService = ApiClient.getService();
-                Call<EstadistiquesFont> call = serverService.createEstadisticaFont(json2);
-                System.out.println(json2);
-                call.enqueue(new Callback<EstadistiquesFont>() {
+                call.enqueue(new Callback<List<Fuente>>() {
                     @Override
-                    public void onResponse(Call<EstadistiquesFont> call, Response<EstadistiquesFont> response) {
+                    public void onResponse(Call<List<Fuente>> call, Response<List<Fuente>> response) {
                         if (response.isSuccessful()) {
-                            EstadistiquesFont nuevoEstadistiquesFont = response.body();
-                            System.out.println(nuevoEstadistiquesFont.toString());
-                            Toast.makeText(view.getContext(), "Review registrado correctamente", Toast.LENGTH_SHORT).show();
-                            System.out.println(nuevoEstadistiquesFont);
-                        } else {
-                            // Print the response details for debugging
-                            System.out.println("Response Code: " + response.code());
-                            System.out.println("Response Message: " + response.message());
-                            try {
-                                System.out.println("Response Body: " + response.errorBody().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                            fuentes1 = response.body();
+                            for (Fuente f : fuentes1) {
+                                if(f.getIdFuente() == args.getLong("fuente")){
+                                    System.out.println(args.getLong("fuente"));
+                                    System.out.println(f.getIdFuente());
+                                    estadistiquesFont.setFuente(f);
+                                }
+
                             }
-                            Toast.makeText(view.getContext(), "Error al registrar review", Toast.LENGTH_SHORT).show();
+                            String json = gson.toJson(estadistiquesFont);
+
+
+                            ServerService serverService = ApiClient.getService();
+                            Call<EstadistiquesFont> call1 = serverService.createEstadisticaFont(json);
+                            System.out.println(json);
+                            System.out.println(estadistiquesFont.toString());
+                            call1.enqueue(new Callback<EstadistiquesFont>() {
+                                @Override
+                                public void onResponse(Call<EstadistiquesFont> call, Response<EstadistiquesFont> response) {
+                                    if (response.isSuccessful()) {
+                                        EstadistiquesFont nuevoEstadistiquesFont = response.body();
+                                        System.out.println(nuevoEstadistiquesFont.toString());
+                                        Toast.makeText(view.getContext(), "Review registrado correctamente", Toast.LENGTH_SHORT).show();
+                                        System.out.println(nuevoEstadistiquesFont);
+                                    } else {
+                                        // Print the response details for debugging
+                                        System.out.println("Response Code: " + response.code());
+                                        System.out.println("Response Message: " + response.message());
+                                        try {
+                                            System.out.println("Response Body: " + response.errorBody().string());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Toast.makeText(view.getContext(), "Error al registrar review", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<EstadistiquesFont> call, Throwable t) {
+                                    Toast.makeText(view.getContext(), "Review registrado correctamente", Toast.LENGTH_SHORT).show();
+                                    Log.e("Registro", "Error al registrar review", t);
+
+                                    Intent i = new Intent(view.getContext(), Login.class);
+                                    startActivity(i);
+                                }
+                            });
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<EstadistiquesFont> call, Throwable t) {
-                        Toast.makeText(view.getContext(), "Review registrado correctamente", Toast.LENGTH_SHORT).show();
-                        Log.e("Registro", "Error al registrar review", t);
-
-                        Intent i = new Intent(view.getContext(), Login.class);
-                        startActivity(i);
+                    public void onFailure(Call<List<Fuente>> call, Throwable t) {
+                        System.out.println(t.getMessage());
                     }
                 });
             }
