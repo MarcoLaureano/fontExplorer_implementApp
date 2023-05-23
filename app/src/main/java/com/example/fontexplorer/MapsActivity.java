@@ -55,6 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener, RoutingListener {
 
     private GoogleMap mMap;
+    private Call<List<Fuente>> call;
 
     Button fuentes, fuenteCercana, salir;
     List<Fuente> fuentes1;
@@ -85,8 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        ServerService server = ApiClient.getService();
-        Call<List<Fuente>> call = server.getFuentes();
+
 
         fuentes = findViewById(R.id.Fuentes);
         fuentes.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +94,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View v) {
                 LatLng newLocation = new LatLng(41.3826198, 2.1489915);
                 zoomToCurrentLocation(newLocation, 12.5f);
+
+                mMap.clear();
+
+                ServerService server = ApiClient.getService();
+                call = server.getFuentes();
 
                 call.enqueue(new Callback<List<Fuente>>() {
                     @Override

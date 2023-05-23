@@ -1,12 +1,18 @@
 package com.example.fontexplorer.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
 public class EstadistiquesFont {
+    @SerializedName("idEstadistica")
     private Long idEstadistica;
 
+    @SerializedName("fuente")
     private Fuente fuente;
 
+    @SerializedName("calificacion")
     private float calificacion;
 
+    @SerializedName("comentarios")
     private String comentarios;
 
     public EstadistiquesFont () {}
@@ -51,12 +57,11 @@ public class EstadistiquesFont {
 
     @Override
     public String toString() {
-        return "EstadistiquesFont{" +
-                "idEstadistica=" + idEstadistica +
-                ", fuente=" + fuente +
-                ", calificacion=" + calificacion +
-                ", comentarios='" + comentarios + '\'' +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("");
+        return calificacion + ", " +
+                 comentarios
+                ;
     }
 }
 

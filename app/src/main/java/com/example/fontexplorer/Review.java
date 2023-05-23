@@ -36,7 +36,7 @@ import retrofit2.Response;
 public class Review extends DialogFragment {
     public Review.OnDismissListener onDismissListener;
     RatingBar calificacion;
-    EditText comentario, idFuente;
+    EditText comentario;
     List<Fuente> fuentes1;
     Button button;
 
@@ -66,9 +66,7 @@ public class Review extends DialogFragment {
 
         calificacion = view.findViewById(R.id.ratingBar);
         comentario = view.findViewById(R.id.comentarios);
-        idFuente = view.findViewById(R.id.idFuente);
         Bundle args = getArguments();
-        idFuente.setText(String.valueOf(args.getLong("fuente")));
         button = view.findViewById(R.id.send);
         Gson gson = new Gson();
 
@@ -98,7 +96,7 @@ public class Review extends DialogFragment {
 
 
                             ServerService serverService = ApiClient.getService();
-                            Call<EstadistiquesFont> call1 = serverService.createEstadisticaFont(json);
+                            Call<EstadistiquesFont> call1 = serverService.createEstadisticaFont(estadistiquesFont);
                             System.out.println(json);
                             System.out.println(estadistiquesFont.toString());
                             call1.enqueue(new Callback<EstadistiquesFont>() {

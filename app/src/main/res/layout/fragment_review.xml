@@ -25,15 +25,6 @@
         android:inputType="textPersonName"
         android:hint="Comentario" />
 
-    <EditText
-        android:id="@+id/idFuente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:ems="10"
-        android:inputType="none"
-        android:text="Id"
-        />
 
     <Button
         android:id="@+id/send"

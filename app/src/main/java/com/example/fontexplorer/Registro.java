@@ -29,7 +29,6 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        Gson gson = new GsonBuilder().setLenient().create();
         nombreEditText = findViewById(R.id.name_text);
         apellidosEditText = findViewById(R.id.lastname_text);
         emailEditText = findViewById(R.id.mail_text);
